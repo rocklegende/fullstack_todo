@@ -1,0 +1,16 @@
+FROM node:16
+
+# Create app directory and use it for all following commands
+WORKDIR /usr/src/app
+
+COPY package*.json /
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Copy all our source code, .dockerignore takes care that unnecessary things (like node_modules) are excluded
+# When we start the containers with docker compose, the volume mount will
+# take the place of this directory so that changes are directly visible
+COPY . /
+
+CMD [ "npm", "run", "dev" ]

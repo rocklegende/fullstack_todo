@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  my-database:
+    image: postgres:11.4-alpine
+    env_file:
+      - ./development.env
+    container_name: the_database_container
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d/
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  my-backend:
+    build:
+      context: .
+      dockerfile: backend_Dockerfile
+    container_name: the_backend_container
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 8080:8080
+    # waits for the start of the db service before starting this one (note: doesn't wait for services to be ready, just waits for the start)
+    depends_on: [my-database]
+
+volumes:
+  postgres-data:

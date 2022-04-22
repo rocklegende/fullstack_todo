@@ -1,0 +1,11 @@
+#BACKEND
+/backend/node_modules
+/backend/*.env
+/backend/postgres-data
+/backend/test-report.html
+coverage
+
+#FRONTEND
+/frontend/node_modules
+
+.idea
